@@ -1,58 +1,45 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import Card from "./Card";
 
 const FormBox = (props) => {
-  const [name, setName] = useState("");
-  const [live, setLive] = useState("");
-  const [email, setEmail] = useState("");
-
+  const nameInputRef = useRef();
+  const liveInputRef = useRef();
+  const emailInputRef = useRef();
   const handalerAddUser = (event) => {
     event.preventDefault();
-    if(name.trim().length === 0 || live.trim().length === 0 || email.trim().length === 0)
-      {
-        // window.confirm('Plase fill a invalid value for all inputs.')
-        alert('Plase fill a invalid value for all inputs.');
-        return;
-      }
+    if (
+      nameInputRef.current.value.trim().length === 0 ||
+      liveInputRef.current.value.trim().length === 0 ||
+      emailInputRef.current.value.trim().length === 0
+    ) {
+      // window.confirm('Plase fill a invalid value for all inputs.')
+      alert("Plase fill a invalid value for all inputs.");
+      return;
+    }
     const userInfo ={
-      name,
-      live,
-      email
+      name:nameInputRef.current.value,
+      live:liveInputRef.current.value,
+      email:emailInputRef.current.value,
     }
     props.getUserInfo(userInfo);
-    setName('');
-    setEmail('');
-    setLive('');
+    nameInputRef.current.value ='';
+    liveInputRef.current.value ='';
+    emailInputRef.current.value ='';
   };
   return (
     <Card>
       <form onSubmit={handalerAddUser}>
         <div className="form-div">
           <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value) }
-          />
+          <input type="text" id="name" ref={nameInputRef} />
         </div>
         <div className="form-div">
           <label htmlFor="live">Live</label>
-          <input
-            type="text"
-            id="live"
-            value={live}
-            onChange={(e) =>setLive( e.target.value)}
-          />
+          <input type="text" id="live" ref={liveInputRef} />
         </div>
         <div className="form-div">
           <label htmlFor="email">Email</label>
-          <input
-            type="text"
-            id="email"
-            value={email}
-            onChange={(e) =>setEmail(e.target.value) }
-          />
+          <input type="text" id="email" ref={emailInputRef} />
         </div>
         <button type="submit" className="btn">
           Add User
